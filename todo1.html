@@ -1,0 +1,168 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App - Arijit Roy</title>
+  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins';
+      color: rgb(22 188 252 / 51%);
+    }
+    #container{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    }
+    
+    #box1 {
+    padding: 50px 50px 50px 50px;
+    margin: 0;
+    position: absolute;
+    top: 10%;
+    box-shadow: 0 0 20px 5px rgb(22 188 252 / 51%);
+    border-radius: 35px;
+    }
+    #heading{
+        font-size: 40px;
+        font-weight: 900;
+    }
+    #box2{
+        margin-top: 50px;
+    background: white;
+    border-radius: 35px;
+    border:2px solid rgb(22 188 252 / 51%);
+    }
+    #input-todo{
+        font-size: 22px;
+    font-weight: 600;
+    padding: 10px 20px 10px 20px;
+    border-radius: 35px;
+    border: none;
+    }
+    #box2 input, #box2 button {
+    font-size: 22px;
+    font-weight: 600;
+    padding: 10px 20px 10px 20px;
+    border-radius: 35px;
+    border: none;
+}
+#box2 input{
+    color: rgb(22 188 252 / 51%);
+    outline: none;
+}
+#box2 button{
+    color: #fff;
+    background-color: rgb(22 188 252 / 51%);
+}
+#list{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    background-color:rgb(22 188 252 / 51%) ;
+    color: #fff;
+    border-radius: 35px;
+}
+.btn {
+    font-size: 17px;
+    font-weight: 600;
+    padding: 10px 20px 10px 20px;
+    border-radius: 35px;
+    border: none;
+    background-color: #fff;
+    color: rgb(22 188 252 / 51%);
+    border: 2px solid rgb(22 188 252 / 51%);
+}
+.listele{
+    font-size: 17px;
+    font-weight: 600;
+    padding-left: 24px;
+}
+  </style>
+</head>
+
+<body>
+    <div id="container">
+  <div id="box1">
+    <div id="heading">Todo List</div>
+    <div id="box2">
+      <input type="text"  required id="input-todo"></input> 
+      <button onclick="addTodo()">Add</button>
+    </div>
+    <!-- <button onclick="deletefirst()">delete first</button>
+    <button onclick="deletelast()">delete last</button> -->
+    <div id='todos'></div>
+
+  </div>
+  </div>
+  <script>
+    let todos = [];
+    function addTodo() {
+      let newtodo = document.querySelector("input").value;
+      if( newtodo =="" || newtodo === " "){
+        alert("Please enter your todo!");
+        return 0;
+      }else{
+        todos.push(newtodo);
+        render();
+      }
+      // todos.push({
+      //   title: document.querySelector("input").value
+      // })
+      // if(title === )
+      // render();
+    }
+    // function deletefirst() {
+    //   todos.splice(0, 1);
+    //   render();
+    // }
+    // function deletelast() {
+    //   todos.splice(todos.length - 1, 1);
+    //   render();
+    // }
+    function deletetodo(id) {
+      todos.splice(id, 1);
+      render();
+    }
+
+    function createtodocomponent(index) {
+      const todo = todos[index];
+      const div = document.createElement("div");
+      div.setAttribute('id','list')
+      const p = document.createElement("p");
+      p.setAttribute('class','listele')
+      const delbutton = document.createElement("button");
+      delbutton.innerHTML = 'Delete';
+      delbutton.setAttribute('id', index);
+      delbutton.setAttribute('class', 'btn');
+      delbutton.setAttribute('onclick', 'deletetodo(' + index + ')');
+    //   const editbutton = document.createElement("button"); 
+
+    //   editbutton.innerHTML = 'Edit';
+    //   editbutton.setAttribute('id', index);
+    //   editbutton.setAttribute('class', 'btn');
+    //   editbutton.setAttribute('onclick', 'edittodo(' + index + ')');
+      p.innerHTML = todo;
+      div.append(p);
+      div.append(delbutton);
+    //   div.append(editbutton);
+      return div;
+    }
+
+
+    function render() {
+      document.querySelector('#todos').innerHTML = "";
+      for (i = 0; i < todos.length; i++) {
+        const element = createtodocomponent([i]);
+        document.querySelector('#todos').appendChild(element);
+      }
+
+    }
+  </script>
+</body>
+
+</html>

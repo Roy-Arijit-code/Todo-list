@@ -1,9 +1,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
   <title>Todo App - Arijit Roy</title>
   <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
   <style>
@@ -76,6 +74,7 @@
     background-color: #fff;
     color: rgb(22 188 252 / 51%);
     border: 2px solid rgb(22 188 252 / 51%);
+    margin-top: 9px;
 }
 .listele{
     font-size: 17px;
@@ -100,6 +99,26 @@
   </div>
   </div>
   <script>
+    function statusUpdateswith(){
+      document.querySelectorAll('.statusBtn').forEach(function(button){
+        button.addEventListener("click", function(){
+          console.log('testing');
+          let current_id=button.id;
+         console.log(current_id);
+         const new_current_id = current_id.split("-");
+         const index = new_current_id[1];
+         console.log(index);
+         let sts=(document.getElementById(current_id).innerHTML);
+         if( sts == 'Incomplete'){
+          todos[index].status = 'Complete';
+          render();
+         }else{
+          todos[index].status = 'Incomplete';
+          render();
+         }
+        });
+      });
+    }
     let todos = [];
     function addTodo() {
       let newtodo = document.querySelector("input").value;
@@ -107,7 +126,11 @@
         alert("Please enter your todo!");
         return 0;
       }else{
-        todos.push(newtodo);
+        let newTodo={
+          val: newtodo,
+          status: 'Incomplete'
+        };
+        todos.push(newTodo);
         render();
       }
       // todos.push({
@@ -128,11 +151,16 @@
       todos.splice(id, 1);
       render();
     }
+    function status(id){
+    document.getElementById("staus-"+id).innerHTML='complete';
+    render();
+    }
 
     function createtodocomponent(index) {
-      const todo = todos[index];
+      const todo = todos[index].val;
       const div = document.createElement("div");
       div.setAttribute('id','list')
+      const btndiv = document.createElement("div");
       const p = document.createElement("p");
       p.setAttribute('class','listele')
       const delbutton = document.createElement("button");
@@ -140,16 +168,17 @@
       delbutton.setAttribute('id', index);
       delbutton.setAttribute('class', 'btn');
       delbutton.setAttribute('onclick', 'deletetodo(' + index + ')');
-    //   const editbutton = document.createElement("button"); 
+      const statusbutton = document.createElement("button"); 
 
-    //   editbutton.innerHTML = 'Edit';
-    //   editbutton.setAttribute('id', index);
-    //   editbutton.setAttribute('class', 'btn');
-    //   editbutton.setAttribute('onclick', 'edittodo(' + index + ')');
+      statusbutton.innerHTML = todos[index].status;
+      statusbutton.setAttribute('id', "status-" +index);
+      statusbutton.setAttribute('class', 'btn statusBtn');
+      // editbutton.setAttribute('onclick', 'edittodo(' + index + ')');
       p.innerHTML = todo;
       div.append(p);
-      div.append(delbutton);
-    //   div.append(editbutton);
+      btndiv.append(statusbutton);
+      btndiv.append(delbutton);
+      div.append(btndiv);
       return div;
     }
 
@@ -160,7 +189,7 @@
         const element = createtodocomponent([i]);
         document.querySelector('#todos').appendChild(element);
       }
-
+      statusUpdateswith();
     }
   </script>
 </body>

@@ -76,6 +76,17 @@
     border: 2px solid rgb(22 188 252 / 51%);
     margin-top: 9px;
 }
+.statusBtn{
+  font-size: 17px;
+    font-weight: 600;
+    padding: 10px 20px 10px 20px;
+    border-radius: 35px;
+    border: none;
+    background-color: #fff;
+    
+    border: 2px solid rgb(22 188 252 / 51%);
+    margin-top: 9px;
+}
 .listele{
     font-size: 17px;
     font-weight: 600;
@@ -102,15 +113,16 @@
     function statusUpdateswith(){
       document.querySelectorAll('.statusBtn').forEach(function(button){
         button.addEventListener("click", function(){
-          console.log('testing');
+          // console.log('testing');
           let current_id=button.id;
-         console.log(current_id);
+        //  console.log(current_id);
          const new_current_id = current_id.split("-");
          const index = new_current_id[1];
          console.log(index);
          let sts=(document.getElementById(current_id).innerHTML);
          if( sts == 'Incomplete'){
           todos[index].status = 'Complete';
+          
           render();
          }else{
           todos[index].status = 'Incomplete';
@@ -151,10 +163,6 @@
       todos.splice(id, 1);
       render();
     }
-    function status(id){
-    document.getElementById("staus-"+id).innerHTML='complete';
-    render();
-    }
 
     function createtodocomponent(index) {
       const todo = todos[index].val;
@@ -172,7 +180,12 @@
 
       statusbutton.innerHTML = todos[index].status;
       statusbutton.setAttribute('id', "status-" +index);
-      statusbutton.setAttribute('class', 'btn statusBtn');
+      statusbutton.setAttribute('class', 'statusBtn');
+      if(todos[index].status == 'Incomplete'){
+        statusbutton.style.color='red';
+      }else{
+        statusbutton.style.color='green';
+      }
       // editbutton.setAttribute('onclick', 'edittodo(' + index + ')');
       p.innerHTML = todo;
       div.append(p);
